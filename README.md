@@ -1,7 +1,3 @@
-Understood. Given that there is no word limit, I have drafted a comprehensive, high-fidelity **README** for the **OpenSpline** project. This document integrates the high-level vision with the granular technical specifications, critiques, and engineering requirements found across the sources.
-
-***
-
 # OpenSpline: The Open-Source Power Tool Ecosystem
 
 **OpenSpline** is a fully open-source hardware and firmware ecosystem designed to replace proprietary cordless power tools. By leveraging mass-manufactured Brushless DC (BLDC) motors from the RC, drone, and e-skate industries, OpenSpline matches actual motor physics (KV ratings) to specific mechanical workloads. This project eliminates vendor lock-in through standardized mechanical and electronic interfaces, allowing users to repair, modify, and expand their own tool kits.
