@@ -1,3 +1,4 @@
+HEAD
 # OpenSpline: The Open-Source Power Tool Ecosystem
 
 **OpenSpline** is a fully open-source hardware and firmware ecosystem designed to replace proprietary cordless power tools. By leveraging mass-manufactured Brushless DC (BLDC) motors from the RC, drone, and e-skate industries, OpenSpline matches actual motor physics (KV ratings) to specific mechanical workloads. This project eliminates vendor lock-in through standardized mechanical and electronic interfaces, allowing users to repair, modify, and expand their own tool kits.
@@ -56,3 +57,8 @@ Help us build the "Linux of power tools"! We welcome contributions in **FOC firm
 ## 📜 Licensing
 *   **Software & Firmware:** MIT License.
 *   **Hardware & CAD:** Creative Commons Attribution 4.0 (CC BY 4.0).
+
+﻿# OpenSpline
+
+The unified, open-source power tool platform using FlexVolt-style battery reconfiguration and FOC motor control.
+ 6008a54 (feat: initialize OpenSpline project structure)
