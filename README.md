@@ -1,63 +1,66 @@
-HEAD
-# OpenSpline: The Open-Source Power Tool Ecosystem
+<h1 align="center">OpenSpline</h1>
 
-**OpenSpline** is a fully open-source hardware and firmware ecosystem designed to replace proprietary cordless power tools. By leveraging mass-manufactured Brushless DC (BLDC) motors from the RC, drone, and e-skate industries, OpenSpline matches actual motor physics (KV ratings) to specific mechanical workloads. This project eliminates vendor lock-in through standardized mechanical and electronic interfaces, allowing users to repair, modify, and expand their own tool kits.
+<p align="center">
+  <strong>The unified, open-source electromechanical power tool & appliance platform using FlexVolt-style battery reconfiguration and FOC motor control.</strong>
+</p>
 
-## 🛠 Project Vision
-Traditional power tools suffer from **proprietary ecosystems** and **planned obsolescence**. When a gear strips, the tool is often discarded. OpenSpline solves this by:
-*   **Decoupling the Motor from the Tool Head:** One handle can drive multiple attachments, each containing its own optimized gearing.
-*   **Using Commodity Hardware:** Motors like the **Flipsky 5055** are orders of magnitude cheaper and more accessible than custom-wound proprietary alternatives.
-*   **Open Standards:** All mechanical interfaces (splines/bayonets) and electronic handshakes (resistor ladders) are documented under the **MIT License**.
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="Software License: MIT">
+  <img src="https://img.shields.io/badge/Hardware-CC--BY--4.0-green.svg" alt="Hardware License: CC-BY-4.0">
+  <img src="https://img.shields.io/badge/Status-Phase%201%20Active-orange.svg" alt="Status: Phase 1">
+  <img src="https://img.shields.io/badge/Platform-ESP32%20%7C%20SimpleFOC-lightgrey.svg" alt="Platform: ESP32">
+</p>
 
-## 🏗 Physics-Aligned 4-Tier Architecture
+---
+
+## 🛠 What is OpenSpline?
+
+OpenSpline is a fully open-source hardware and firmware ecosystem designed to replace proprietary cordless tools and appliances. By leveraging mass-manufactured RC/drone Brushless DC (BLDC) motors, OpenSpline matches actual motor physics (KV ratings) to specific mechanical workloads, governed by an open 4-pin handshake. Broken gears or housings are easily replaced by printing parametric CAD files in-house.
+
+## 🚀 Core Engineering Pillars
+
+### 1. Physics-Aligned 4-Tier Architecture
+
 The ecosystem is divided into four tiers based on motor class and voltage requirements to avoid the "one motor for everything" engineering trap.
 
-Tier 0 (Micro-Sealed): Resonant/inductive personal care devices (toothbrushes, shavers) defeating proprietary consumable lock-in.
-Tier 1 (Micro/Rotary & Inline): High-speed BLDC motors (2000-2500KV @ 12V) for precision Dremel-style tools, alongside N20 micro-gearmotors for ~$10 inline screwdrivers.
-Tier 2 (Core Workhorse): Powered by the Flipsky 5055 Sensored Outrunner. Split windings for geared high-torque drills/mixers (~20:1 planetary) and direct-drive speed tools (blenders/routers).
-Tier 3 (Heavy Industrial): Powered by the Flipsky 6374/6384 Outrunner for sustained high-load cutting (circular saws, thicknessers, lawnmowers).
+| Tier | Motor Class | Target Tools | Target Specs |
+| :--- | :--- | :--- | :--- |
+| **Tier 0: Micro-Sealed** | Resonant / Inductive Drive | Personal care devices (toothbrushes, shavers) | Defeats proprietary consumable lock-in |
+| **Tier 1: Micro / Rotary & Inline** | 2207 / 2435 Inrunner (BLDC) + N20 Gearmotor | Precision rotary tools, engravers, PCB drills, inline screwdrivers | 12V (3S); 5,000–31,500 RPM (BLDC); ~$10 N20 inline drivers |
+| **Tier 2: Core Workhorse** | Flipsky 5055 Sensored Outrunner | Drills, mixers, blenders, compact routers | 18V (5S); ~20:1 planetary (geared) / direct-drive (speed tools) |
+| **Tier 3: Heavy Industrial** | Flipsky 6374 / 6384 Outrunner | Circular saws, thicknessers, lawnmowers, demo hammers | 36V (FlexVolt-style); sustained high-load cutting |
 
-## ⚡ Core Engineering Pillars
+### 2. Solid-State "FlexVolt-Style" Battery Matrix
 
-### 1. Solid-State "FlexVolt-Style" Battery Matrix
-To power high-demand Tier 3 tools without fragmenting the battery ecosystem, OpenSpline uses an **electronic SPDT MOSFET matrix**.
-*   **Dynamic Reconfiguration:** A single battery pack can transition between **18V (Parallel)** for Tier 2 and **36V (Series)** for Tier 3.
-*   **Safety Interlock:** A strict **Break-Before-Make (BBM)** zero-current interlock ensures that battery configurations never short-circuit during the transition.
-*   **Open BMS:** Utilizing protocols like **obi-esp32 (Open Battery Information)**, the handle monitors individual cell voltages and state-of-charge in real-time.
+Series-connecting independent battery packs is a thermal hazard. OpenSpline uses an electronic SPDT MOSFET matrix to securely transition a single pack between **18V (Parallel) for Tier 2** and **36V (Series) for Tier 3** using a strict **Break-Before-Make (BBM)** zero-current interlock.
 
-### 2. Advanced Motor Control (SimpleFOC)
-The "brain" of the handle is an **ESP32** running the **SimpleFOC library** (MIT Licensed).
-*   **Field Oriented Control (FOC):** This provides silent, smooth operation and maximum torque at zero RPM—essential for driving large screws without "cam-out".
-*   **4-Pin "Smart" Handshake:** When a tool head is attached, a **resistor ladder** identification layer tells the controller exactly what tool is connected. The controller then instantly adjusts RPM limits, torque curves, and braking forces.
+### 3. Advanced Motor Control (SimpleFOC)
 
-### 3. Hybrid Kickback Protection
-To prevent wrist injuries during tool binding (e.g., a drill bit catching or a grinder wheel jamming), OpenSpline implements **Sensor Fusion**.
-*   **Redundant Monitoring:** The system combines high-speed current monitoring (\(I_q\) spikes) with an **MPU6050 IMU** mounted in the handle.
-*   **Rapid Shutdown:** If the IMU detects an angular velocity spike (\(>45^\circ/sec\)) or the current exceeds a set threshold, the inverter is shut down instantly.
+The "brain" of the handle is an **ESP32** running the **SimpleFOC library** (MIT Licensed), providing silent, smooth operation and maximum torque at zero RPM. A **4-pin resistor-ladder handshake** identifies the attached tool head and instantly adjusts RPM limits, torque curves, and braking forces.
 
-### 4. Thermal Management & S1 Duty Cycle
-Unlike RC motors that rely on prop-wash for cooling, power tools operate in enclosed housings.
-*   **Empirical Baseline:** The project is currently establishing **S1 continuous duty-cycle limits** for motors inside 3D-printed mockups.
-*   **Thermal Budget:** Monitoring ensures that winding insulation stays below **130°C** and magnets stay below **80°C** to prevent permanent damage.
+### 4. Hybrid Kickback Protection
+
+OpenSpline uses **Sensor Fusion**, combining SimpleFOC's current monitoring (I_q) with a handle-mounted **MPU6050 IMU** (ω_z) for instant inverter shutdown during blade jams, bypassing the lag of traditional current-only limits.
+
+## 💡 Prior Art & Community Inspiration
+
+OpenSpline's Tier 1 architecture builds upon the foundational work of the DIY 3D-printing community, including projects utilizing 3V/3.7V N20 gearmotors and 16340 LiPo cells by **KJDOT**, **Asi**, and **Saar Nathanson**.
+
+## 📈 Status: Phase 1 Active
+
+We are currently characterizing the **Flipsky 5055 (600KV)** outrunner under S1 continuous duty cycles inside enclosed 3D-printed mockups via ESP32/SimpleFOC to determine real-world thermal limits (130°C insulation / 80°C magnets). Track telemetry data in the [Engineering Notebook](./docs/engineering_notebook.md).
 
 ## 📂 Repository Structure
-*   `/cad`: Parametric STEP/OpenSCAD files for handles, battery sleds, and planetary gearsets.
-*   `/firmware`: ESP32 SimpleFOC source code and tool-ID profiles.
-*   `/docs`: The **Engineering Notebook**, assembly guides, and BOMs.
-*   `/data`: Raw CSV logs from thermal and torque instrumentation runs.
 
-## 🤝 Roadmap & Contribution
-**Current Status: Phase 1 (Foundation)**
-*   **Active Task:** Characterizing the **Flipsky 5055** under load to determine real-world amperage limits in enclosed housings.
-*   **Next Milestone:** Designing the 20:1 two-stage planetary gearbox for the Tier 2A drill head to ensure a reliable 500 RPM low-speed floor.
+* `/hardware`: Parametric STEP/OpenSCAD/FreeCAD files for handles, battery sleds, and planetary gearsets, organized by tier.
+* `/firmware`: ESP32 SimpleFOC source code and tool-ID profiles.
+* `/docs`: The **Engineering Notebook**, assembly guides, and BOMs.
 
-Help us build the "Linux of power tools"! We welcome contributions in **FOC firmware tuning**, **parametric mechanical design**, and **safety-critical electronics**.
+## 🤝 Contribute
+
+Help us build the "Linux of power tools"! Check out [CONTRIBUTING.md](./CONTRIBUTING.md) and look for issues tagged `good first issue` or `hardware-help`. We especially welcome contributions in **FOC firmware tuning**, **parametric mechanical design**, and **safety-critical electronics**.
 
 ## 📜 Licensing
-*   **Software & Firmware:** MIT License.
-*   **Hardware & CAD:** Creative Commons Attribution 4.0 (CC BY 4.0).
 
-﻿# OpenSpline
-
-The unified, open-source power tool platform using FlexVolt-style battery reconfiguration and FOC motor control.
- 6008a54 (feat: initialize OpenSpline project structure)
+* **Code & Firmware:** [MIT License](LICENSE-MIT)
+* **Hardware & CAD:** [CC BY 4.0](LICENSE-CC-BY)
