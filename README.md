@@ -10,13 +10,12 @@ Traditional power tools suffer from **proprietary ecosystems** and **planned obs
 *   **Open Standards:** All mechanical interfaces (splines/bayonets) and electronic handshakes (resistor ladders) are documented under the **MIT License**.
 
 ## 🏗 Physics-Aligned 3-Tier Architecture
-The ecosystem is divided into three tiers based on motor class and voltage requirements to avoid the "one motor for everything" engineering trap.
+The ecosystem is divided into four tiers based on motor class and voltage requirements to avoid the "one motor for everything" engineering trap.
 
-| Tier | Motor Class | Target Tools | Target Specs |
-| :--- | :--- | :--- | :--- |
-| **Tier 1: Micro** | 2207 / 2435 Inrunner | Rotary tools, precision engravers, PCB drills. | 12V (3S); 5,000–31,500 RPM. |
-| **Tier 2: Workhorse** | 5055 Outrunner (2A) / 3650 Inrunner (2B) | Drills, grinders, jigsaws, compact routers. | 18V (5S); 500–2,100 RPM (geared) / 30,000 RPM (direct). |
-| **Tier 3: Industrial** | 6374 / 6384 Outrunner | Circular saws, miter saws, planers, demo hammers. | 36V (FlexVolt-style); 5,000–10,000 RPM. |
+Tier 0 (Micro-Sealed): Resonant/inductive personal care devices (toothbrushes, shavers) defeating proprietary consumable lock-in.
+Tier 1 (Micro/Rotary & Inline): High-speed BLDC motors (2000-2500KV @ 12V) for precision Dremel-style tools, alongside N20 micro-gearmotors for ~$10 inline screwdrivers.
+Tier 2 (Core Workhorse): Powered by the Flipsky 5055 Sensored Outrunner. Split windings for geared high-torque drills/mixers (~20:1 planetary) and direct-drive speed tools (blenders/routers).
+Tier 3 (Heavy Industrial): Powered by the Flipsky 6374/6384 Outrunner for sustained high-load cutting (circular saws, thicknessers, lawnmowers).
 
 ## ⚡ Core Engineering Pillars
 
