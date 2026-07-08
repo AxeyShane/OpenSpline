@@ -9,7 +9,7 @@ Traditional power tools suffer from **proprietary ecosystems** and **planned obs
 *   **Using Commodity Hardware:** Motors like the **Flipsky 5055** are orders of magnitude cheaper and more accessible than custom-wound proprietary alternatives.
 *   **Open Standards:** All mechanical interfaces (splines/bayonets) and electronic handshakes (resistor ladders) are documented under the **MIT License**.
 
-## 🏗 Physics-Aligned 3-Tier Architecture
+## 🏗 Physics-Aligned 4-Tier Architecture
 The ecosystem is divided into four tiers based on motor class and voltage requirements to avoid the "one motor for everything" engineering trap.
 
 Tier 0 (Micro-Sealed): Resonant/inductive personal care devices (toothbrushes, shavers) defeating proprietary consumable lock-in.
