@@ -1,0 +1,6 @@
+[submodule "third-party/Arduino-SimpleFOCShield"]
+	path = third-party/Arduino-SimpleFOCShield
+	url = https://github.com/AxeyShane/Arduino-SimpleFOCShield.git
+[submodule "third-party/obi-esp32"]
+	path = third-party/obi-esp32
+	url = https://github.com/AxeyShane/obi-esp32.git
