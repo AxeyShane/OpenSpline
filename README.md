@@ -40,7 +40,7 @@ The "brain" of the handle is an **ESP32** running the **SimpleFOC library** (MIT
 
 ### 4. Hybrid Kickback Protection
 
-OpenSpline uses **Sensor Fusion**, combining SimpleFOC's current monitoring (I_q) with a handle-mounted **MPU6050 IMU** (ω_z) for instant inverter shutdown during blade jams, bypassing the lag of traditional current-only limits.
+OpenSpline uses **Sensor Fusion**, combining SimpleFOC's current monitoring (I<sub>q</sub>) with a handle-mounted **MPU6050 IMU** (ω<sub>z</sub>) for instant inverter shutdown during blade jams, bypassing the lag of traditional current-only limits.
 
 ## 💡 Prior Art & Community Inspiration
 
